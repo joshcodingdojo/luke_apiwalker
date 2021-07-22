@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import { Router } from "@reach/router";
+import axios from "axios";
+import Input from "./components/Input";
+import Display from "./components/Display";
 
 function App() {
+  const [apiCategories, setApiCategories] = useState({});
+  useEffect(() => {
+    axios
+      .get("https://swapi.dev/api/")
+      .then((response) => setApiCategories(response.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>yo</h1>
+      <Input apiCategories={apiCategories} />
+      <Router>
+        <Display path="/display/:uid/:category" />
+      </Router>
     </div>
   );
 }
